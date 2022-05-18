@@ -16,6 +16,9 @@ char* (*finder(char i))(va_list);
 char *_itos(int div, int length, int n);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
+void write_holder(char *temp_h, int len, va_list list);
+char *create_holder(void);
+int temp_holder(char *temp_h, int len);
 
 /* printf prototypes */
 int _printf(const char *format, ...); /* _printf a variadic function */

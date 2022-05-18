@@ -2,42 +2,79 @@
 
 int _printf(const char *format, ...)
 {
-  /* variable declarations and initialisations */
-  int count = 0, index = 0;
-  va_list listptr; 
-  va_start(listptr, format); /* initialising listptr */
+ 	int len = 0, total_len = 0, i = 0, j = 0;
+	va_list list;
+	char *holder, *str;
+	char* (*f)(va_list);
 
-  /* terminate immediately if a null argument is passed to printf */
-  if (format == NULL)
-    return (-1); 
+	if (format == NULL)
+		return (-1);
 
-  while (format[index] != '\0')
-  {/* check for % character in the passed arg at current index */
-	if (format[index] == '%')
-	{/* assume conversion is intended, pass next character to conversion handler */
-		index++;
-		if (format[index] == '%')
+	holder = create_holder();
+	if (holder == NULL)
+		return (-1);
+
+	va_start(list, format);
+
+	while (format[i] != '\0')
+	{
+		if (format[i] != '%') /* copy format into holder until '%' */
 		{
-			_putchar(format[i++]);
-			count++;
-			continue;
+			len = temp_holder(holder, len);
+			holder[len++] = format[i++];
+			total_len++;
 		}
-		else if (format[index] == '\0')
-			continue;
-		if (finder(format[index]) == NULL)
+		else /* if %, find function */
 		{
-			_putchar(format[index - 1]);
-			_putchar(format[index++]);
-			count += 2;
-			continue;
+			i++;
+			if (format[i] == '\0') /* handle single ending % */
+			{
+				va_end(list);
+				free(holder);
+				return (-1);
+			}
+			if (format[i] == '%') /* handle double %'s */
+			{
+				len = temp_holder(holder, len);
+				holder[len++] = format[i];
+				total_len++;
+			}
+			else
+			{
+				f = get_func(format[i]); /* grab function */
+				if (f == NULL)  /* handle fake id */
+				{
+					len = temp_holder(holder, len);
+					holder[len++] = '%'; total_len++;
+					holder[len++] = format[i]; total_len++;
+				}
+				else /* return string, copy to holder */
+				{
+					str = f(list);
+					if (str == NULL)
+					{
+						va_end(list);
+						free(holder);
+						return (-1);
+					}
+					if (format[i] == 'c' && str[0] == '\0')
+					{
+						len = temp_holder(holder, len);
+						holder[len++] = '\0';
+						total_len++;
+					}
+					j = 0;
+					while (str[j] != '\0')
+					{
+						len = temp_holder(holder, len);
+						holder[len++] = str[j];
+						total_len++; j++;
+					}
+					free(str);
+				}
+			} i++;
 		}
-		count += finder(format[index++])(args);
-		continue;
-	  }
-	  else
-	    _putchar(format[index]);
-	  index++;
-	  count++;
-  }
-  return (count);
+	}
+	write_holder(holder, len, list);
+	return (total_len);
 }

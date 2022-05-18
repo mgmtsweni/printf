@@ -58,3 +58,38 @@ int _strlen(char *s)
 
 	return (a);
 }
+
+int temp_holder(char *temp_h, int len)
+{
+	if (len > 1020)
+	{
+		write(1, temp_h, len);
+		len = 0;
+	}
+	return (len);
+}
+
+char *create_holder(void)
+{
+	char *holder
+	holder = malloc(sizeof(char) * 1024);
+	if (holder == NULL)
+		return (NULL);
+	return (holder);
+}
+
+/**
+ * write_holder - prints buffer, then frees it and frees va_list
+ * @temp_h: buffer holding print-ables
+ * @len: length of print-able string
+ * @list: va_list
+ */
+void write_holder(char *temp_h, int len, va_list list)
+{
+	char *hold;
+
+	hold = realloc(temp_h, len); /* realloc to correct size */
+	write(1, hold, len); /* print */
+
+	free(hold); va_end(list);
+}
