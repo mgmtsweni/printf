@@ -55,7 +55,8 @@ void write_holder(char *holder, int len, va_list list)
 	hold = realloc(holder, len); /* realloc to correct size */
 	write(1, hold, len); /* print */
 
-	free(hold); va_end(list);
+	free(hold);
+	va_end(list);
 }
 /**
  * temp_holder - if writing over holdere,
