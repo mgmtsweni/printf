@@ -12,7 +12,7 @@
 #include <stdarg.h>
 
 /* utility methods */
-char* (*get_func(char i))(va_list);
+char* (*finder(char i))(va_list);
 char *_itos(int div, int length, int n);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
