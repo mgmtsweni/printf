@@ -1,40 +1,38 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdarg.h> /* va_list */
+#include <stdlib.h> /* malloc, free */
+#include <unistd.h> /* write */
 
-/* malloc, free */
-#include <stdlib.h>
-
-/* write */
-#include <unistd.h>
-
-/* va_list */
-#include <stdarg.h>
-
-/* utility methods */
-char* (*finder(char i))(va_list);
-char *_itos(int div, int length, int n);
+/*ASSIST functions */
+char* (*get_func(char i))(va_list);
+char *create_holder(void);
+void write_holder(char *holder, int len, va_list list);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
-void write_holder(char *temp_h, int len, va_list list);
-char *create_holder(void);
-int temp_holder(char *temp_h, int len);
+int temp_holder(char *holder, int len);
 
-/* printf prototypes */
-int _printf(const char *format, ...); /* _printf a variadic function */
-char *char_print_handler(va_list list);
-char *str_print_handler(va_list list);
-char *int_print_handler(va_list list);
-char *itob_print_handler(va_list list);
-char *rot13_print_handler(va_list list);
-char *rev_string_print_handler(va_list list);
-char *itoOctal_print_handler(va_list list);
+/*PRINT functions */
+int _printf(const char *format, ...);
+char *print_s(va_list list);
+char *print_c(va_list list);
+char *print_d(va_list list);
+char *itob(va_list list);
+char *rot13(va_list list);
+char *rev_string(va_list list);
+char *itoOctal(va_list list);
 
-/* typedefs structures */
-typedef struct typeConvertor
+/**
+ * struct types - struct
+ * @id: identifier of type to print (e.g. c means char)
+ * @func: ptr to functions that print according to identifier (e.g. print_c)
+ */
+
+typedef struct types
 {
-  char conv;
-  char *(*func)(va_list);
-} typePick;
+	char id;
+	char* (*func)(va_list);
+} print;
 
 #endif
