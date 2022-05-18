@@ -7,7 +7,7 @@ char *char_print_handler(va_list list)
 	char c;
 
 	c = va_arg(list, int);
-
+	
 	if (c == 0)
 		c = '\0';
 

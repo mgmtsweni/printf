@@ -3,7 +3,8 @@
 int _printf(const char *format, ...)
 {
   /* variable declarations and initialisations */
-  int count = 0, index = 0;
+  int count = 0;
+  int index = 0;
   va_list listptr; 
   va_start(listptr, format); /* initialising listptr */
 
@@ -24,14 +25,14 @@ int _printf(const char *format, ...)
 		}
 		else if (format[index] == '\0')
 			continue;
-		if (finder(format[index]) == NULL)
+		if (get_func(format[index]) == NULL)
 		{
 			_putchar(format[index - 1]);
 			_putchar(format[index++]);
 			count += 2;
 			continue;
 		}
-		count += finder(format[index++])(args);
+		count += get_func(format[index++])(args);
 		continue;
 	  }
 	  else

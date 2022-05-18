@@ -1,6 +1,6 @@
 #include "main.h"
 
-char* (*finder(char i))(va_list)
+char* (*get_func(char i))(va_list)
 {
   int iterator = 0;
 
