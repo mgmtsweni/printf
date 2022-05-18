@@ -8,9 +8,8 @@ int _strlen(char *s)
 {
 	int a = 0;
 
-	while (*(s + a))
-		a++;
-
+	while (s[a])
+		a += 1;
 	return (a);
 }
 /**
@@ -52,7 +51,7 @@ char *_strcpy(char *dest, char *src)
 		x++;
 	}
 
-	dest[x] = src[x];
+	dest[x] = '\0';
 	return (dest);
 }
 /**
